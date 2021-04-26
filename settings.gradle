@@ -1,2 +1,3 @@
+include ':webview-lib'
 include ':app'
 rootProject.name = "ChildProcessWebView"

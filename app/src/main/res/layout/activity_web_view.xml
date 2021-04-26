@@ -5,19 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/btn_open_jd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="打开京东"
-        android:padding="15dp"/>
-
-    <Space
+    tools:context=".WebViewActivity">
+    <FrameLayout
+        android:id="@+id/fragment_web_view"
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
