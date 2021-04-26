@@ -13,8 +13,11 @@ import androidx.annotation.Nullable;
 
 import com.example.webviewlibrary.R;
 import com.example.webviewlibrary.constant.WebConstant;
+import com.example.webviewlibrary.interfaces.WebLifeCycle;
 
 abstract public class WebBaseFragment extends BaseFragment {
+
+    private WebLifeCycle webLifeCycle;
 
     public String url;
 
