@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.example.webviewlibrary.CommonWebFragment;
 import com.example.webviewlibrary.base.WebBaseFragment;
@@ -39,10 +40,19 @@ public class WebViewActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        webFragment = null;
-
         webFragment = CommonWebFragment.newInstance(url);
 
         transaction.replace(R.id.fragment_web_view,webFragment).commit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (webFragment != null && webFragment instanceof WebBaseFragment) {
+            boolean flag = webFragment.onKeyDown(keyCode, event);
+            if (flag) {
+                return flag;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

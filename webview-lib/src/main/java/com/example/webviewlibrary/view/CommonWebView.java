@@ -35,7 +35,6 @@ public class CommonWebView extends WebView {
     private static final ExecutorService SINGLE_THREAD_POOL = Executors.newSingleThreadExecutor();
 
     private static final String TAG = "CommonWebView";
-    private static final String SCHEME_SMS = "sms:";
 
     protected Context context;
 
@@ -74,7 +73,8 @@ public class CommonWebView extends WebView {
     protected void init(Context context) {
         this.context = context;
         WebDefaultSettingManager.getInstance().toSetting(this);
-        setWebChromeClient(new WebChromeClient());
+        setWebViewClient(new CommonWebViewClient());
+        //setWebChromeClient(new WebChromeClient());
 
         //链接 web —— native
         if(jsRemoteInterface == null) {
@@ -89,7 +89,7 @@ public class CommonWebView extends WebView {
                 }
             });
         }
-        setJavascriptInterface(jsRemoteInterface);
+        //setJavascriptInterface(jsRemoteInterface);
 
     }
 
@@ -152,7 +152,6 @@ public class CommonWebView extends WebView {
     * */
     public class CommonWebViewClient extends WebViewClient{
         public static final String SCHEME_SMS = "sms:";
-
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -237,30 +236,32 @@ public class CommonWebView extends WebView {
             view.loadUrl(request.getUrl().toString(), mHeaders);
             return true;
         }
-    }
 
-
-
-
-    /**
-     * 支持电话、短信、邮件、地图跳转，跳转的都是手机系统自带的应用
-     */
-    private boolean handleLinked(String url) {
-        if (url.startsWith(WebView.SCHEME_TEL)
-                || url.startsWith(SCHEME_SMS)
-                || url.startsWith(WebView.SCHEME_MAILTO)
-                || url.startsWith(WebView.SCHEME_GEO)) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException ignored) {
-                ignored.printStackTrace();
+        /**
+         * 支持电话、短信、邮件、地图跳转，跳转的都是手机系统自带的应用
+         */
+        private boolean handleLinked(String url) {
+            if (url.startsWith(WebView.SCHEME_TEL)
+                    || url.startsWith(SCHEME_SMS)
+                    || url.startsWith(WebView.SCHEME_MAILTO)
+                    || url.startsWith(WebView.SCHEME_GEO)) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException ignored) {
+                    ignored.printStackTrace();
+                }
+                return true;
             }
-            return true;
+            return false;
         }
-        return false;
     }
+
+
+
+
+
 
 
 

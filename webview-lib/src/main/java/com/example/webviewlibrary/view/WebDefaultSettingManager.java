@@ -64,7 +64,6 @@ public class WebDefaultSettingManager implements AgentWebSettings {
             mWebSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        // 硬件加速兼容性问题有点多
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 //        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -111,8 +110,8 @@ public class WebDefaultSettingManager implements AgentWebSettings {
         // 设置useragent
         //mWebSettings.setUserAgentString("you agent info");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+//        }
     }
 }

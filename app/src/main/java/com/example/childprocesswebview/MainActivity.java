@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_open_jd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebViewActivity.start(MainActivity.this,"京东","https://www.jd.com/");
+                WebViewActivity.start(MainActivity.this,"京东","https://m.jd.com/");
 
             }
         });

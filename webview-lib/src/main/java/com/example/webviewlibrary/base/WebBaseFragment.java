@@ -1,5 +1,6 @@
 package com.example.webviewlibrary.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,15 +15,17 @@ import androidx.annotation.Nullable;
 import com.example.webviewlibrary.R;
 import com.example.webviewlibrary.constant.WebConstant;
 import com.example.webviewlibrary.impl.DefaultWebLifeCycleImpl;
+import com.example.webviewlibrary.interfaces.CommonWebViewCallback;
 import com.example.webviewlibrary.interfaces.WebLifeCycle;
+import com.example.webviewlibrary.view.CommonWebView;
 
-abstract public class WebBaseFragment extends BaseFragment {
+abstract public class WebBaseFragment extends BaseFragment implements CommonWebViewCallback {
 
     private WebLifeCycle webLifeCycle;
 
     public String url;
 
-    private WebView webView;
+    private CommonWebView webView;
 
     @LayoutRes
     protected abstract int getLayoutRes();
@@ -48,14 +51,44 @@ abstract public class WebBaseFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         webLifeCycle = new DefaultWebLifeCycleImpl(webView);
+        webView.registerWebViewCallBack(this);
         loadUrl();
     }
 
+    @Override
+    public int getCommandLevel() {
+        return 0;
+    }
+
+    @Override
+    public void pageStarted(String url) {
+
+    }
+
+    @Override
+    public void pageFinished(String url) {
+
+    }
+
+    @Override
+    public boolean overrideUrlLoading(WebView view, String url) {
+        return false;
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void exec(Context context, int commandLevel, String cmd, String params, WebView webView) {
+
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        webLifeCycle.onPause();
+        webLifeCycle.onResume();
     }
 
     @Override
