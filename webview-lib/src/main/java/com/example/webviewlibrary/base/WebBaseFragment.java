@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.example.webviewlibrary.R;
 import com.example.webviewlibrary.constant.WebConstant;
+import com.example.webviewlibrary.impl.DefaultWebLifeCycleImpl;
 import com.example.webviewlibrary.interfaces.WebLifeCycle;
 
 abstract public class WebBaseFragment extends BaseFragment {
@@ -46,7 +47,27 @@ abstract public class WebBaseFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        webLifeCycle = new DefaultWebLifeCycleImpl(webView);
         loadUrl();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        webLifeCycle.onPause();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        webLifeCycle.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        webLifeCycle.onDestroy();
     }
 
     protected void loadUrl() {

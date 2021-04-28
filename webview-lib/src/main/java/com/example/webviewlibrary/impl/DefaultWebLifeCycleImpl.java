@@ -1,13 +1,18 @@
 package com.example.webviewlibrary.impl;
 
 import android.os.Looper;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.example.webviewlibrary.interfaces.WebLifeCycle;
 
 public class DefaultWebLifeCycleImpl implements WebLifeCycle {
 
-    private WebView mWebView;
+    private final WebView mWebView;
+
+    public DefaultWebLifeCycleImpl(WebView mWebView) {
+        this.mWebView = mWebView;
+    }
 
     @Override
     public void onResume() {
@@ -40,8 +45,19 @@ public class DefaultWebLifeCycleImpl implements WebLifeCycle {
             return;
         mWebView.stopLoading();
         if(mWebView.getHandler() != null) {
-
+            mWebView.getHandler().removeCallbacksAndMessages(null);
         }
+        mWebView.removeAllViews();
+        ViewGroup viewGroup = (ViewGroup) mWebView.getParent();
+        if(viewGroup != null) {
+            viewGroup.removeView(mWebView);
+        }
+        mWebView.setWebChromeClient(null);
+        mWebView.setWebViewClient(null);
+        mWebView.setTag(null);
+        mWebView.clearHistory();
+        mWebView.destroy();
+        mWebView = null;
 
     }
 }
