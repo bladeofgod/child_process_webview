@@ -3,7 +3,10 @@ package com.example.webviewlibrary.aidl.mainProcess;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
+import android.os.Process;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -14,7 +17,7 @@ import androidx.annotation.Nullable;
  *
  * */
 
-public class MainHandleWbeViewService extends Service {
+public class MainHandleWbeService extends Service {
 
     private Context mContext;
 
@@ -27,6 +30,8 @@ public class MainHandleWbeViewService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        int pid = Process.myPid();
+        Log.e("","MainHandleWbeViewService  on bind : " +pid);
         return null;
     }
 }
