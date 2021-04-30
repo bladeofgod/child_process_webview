@@ -110,8 +110,8 @@ public class WebDefaultSettingManager implements AgentWebSettings {
         // 设置useragent
         //mWebSettings.setUserAgentString("you agent info");
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        }
     }
 }
