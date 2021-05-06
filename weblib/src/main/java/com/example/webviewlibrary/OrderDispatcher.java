@@ -2,9 +2,16 @@ package com.example.webviewlibrary;
 
 
 import android.content.Context;
+import android.os.IBinder;
+import android.util.Log;
 import android.webkit.WebView;
 
+import com.example.webviewlibrary.aidl.RemoteWebBinderPool;
 import com.example.webviewlibrary.interfaces.Action;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -29,7 +36,38 @@ public class OrderDispatcher {
         return singleton;
     }
 
-    public void initAidlConnect(final Context context, final Action action) {}
+    // aidl (main binder)
+    private IWebAidlInterface webAidlInterface;
+
+    public IWebAidlInterface getWebAidlInterface(Context context) {
+        if(webAidlInterface == null) {
+            initAidlConnect(context,null);
+        }
+        return webAidlInterface;
+    }
+
+    public void initAidlConnect(final Context context, final Action action) {
+        if(webAidlInterface != null) {
+            // 已连接
+            if(action != null) {
+                action.call();
+            }
+            return;
+        }
+        Executors.newSingleThreadExecutor().submit(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("AIDL", "Begin to connect with main process");
+                RemoteWebBinderPool binderPool = RemoteWebBinderPool.getInstance(context);
+                IBinder iBinder = binderPool.queryBinder(RemoteWebBinderPool.BINDER_WEB_AIDL);
+                webAidlInterface = IWebAidlInterface.Stub.asInterface(iBinder);
+                Log.i("AIDL", "Connect success with main process");
+                if(action != null) {
+                    action.call();
+                }
+            }
+        });
+    }
 
 
     /*

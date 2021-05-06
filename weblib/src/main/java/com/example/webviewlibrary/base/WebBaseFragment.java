@@ -12,9 +12,12 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.webviewlibrary.OrderDispatcher;
 import com.example.webviewlibrary.R;
+import com.example.webviewlibrary.WebMainHandler;
 import com.example.webviewlibrary.constant.WebConstant;
 import com.example.webviewlibrary.impl.DefaultWebLifeCycleImpl;
+import com.example.webviewlibrary.interfaces.Action;
 import com.example.webviewlibrary.interfaces.CommonWebViewCallback;
 import com.example.webviewlibrary.interfaces.WebLifeCycle;
 import com.example.webviewlibrary.view.CommonWebView;
@@ -52,7 +55,17 @@ abstract public class WebBaseFragment extends BaseFragment implements CommonWebV
         super.onViewCreated(view, savedInstanceState);
         webLifeCycle = new DefaultWebLifeCycleImpl(webView);
         webView.registerWebViewCallBack(this);
-        loadUrl();
+        OrderDispatcher.getInstance().initAidlConnect(getContext(), new Action() {
+            @Override
+            public void call() {
+                WebMainHandler.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadUrl();
+                    }
+                });
+            }
+        });
     }
 
     @Override
