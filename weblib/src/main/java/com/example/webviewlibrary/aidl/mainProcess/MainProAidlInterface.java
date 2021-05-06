@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.webviewlibrary.IWebAidlCallback;
 import com.example.webviewlibrary.IWebAidlInterface;
 import com.example.webviewlibrary.OrderDispatcher;
+import com.google.gson.Gson;
 
 import java.util.Map;
 
@@ -15,6 +16,11 @@ public class MainProAidlInterface extends IWebAidlInterface.Stub {
     public void handleWebAction(int level, String actionName, String jsonParams, IWebAidlCallback callback) throws RemoteException {
         int pid = Process.myPid();
         Log.e("","handleWebAction   :" + pid);
+        try {
+            handleRemoteAction(level,actionName,new Gson().fromJson(jsonParams,Map.class),callback);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
