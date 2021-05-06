@@ -7,4 +7,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
+    <application>
+
+        <service android:name=".aidl.mainProcess.MainHandleWbeService"/>
+    </application>
+
 </manifest>

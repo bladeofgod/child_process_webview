@@ -1,3 +1,2 @@
-include ':weblib'
-include ':app'
+include ':app' , ':weblib'
 rootProject.name = "ChildProcessWebView"
