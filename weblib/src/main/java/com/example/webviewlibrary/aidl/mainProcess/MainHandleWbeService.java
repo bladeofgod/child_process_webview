@@ -10,6 +10,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.webviewlibrary.aidl.RemoteWebBinderPool;
+
 
 /**
  *
@@ -31,7 +33,7 @@ public class MainHandleWbeService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         int pid = Process.myPid();
-        Log.e("","MainHandleWbeViewService  on bind : " +pid);
-        return null;
+        Log.e("","MainHandleWbeViewService  on bind :  当前进程ID 为 " +pid);
+        return new RemoteWebBinderPool.BinderPoolImpl(mContext);
     }
 }
