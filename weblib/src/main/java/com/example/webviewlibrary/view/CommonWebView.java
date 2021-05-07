@@ -89,7 +89,7 @@ public class CommonWebView extends WebView {
                 }
             });
         }
-        //setJavascriptInterface(jsRemoteInterface);
+        setJavascriptInterface(jsRemoteInterface);
 
     }
 

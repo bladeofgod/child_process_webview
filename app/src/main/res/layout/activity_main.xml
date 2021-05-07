@@ -20,4 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"/>
 
+    <Button
+        android:id="@+id/btn_local_h5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试aidl"
+        android:padding="15dp"/>
+
 </LinearLayout>

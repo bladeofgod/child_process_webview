@@ -94,8 +94,8 @@ abstract public class WebBaseFragment extends BaseFragment implements CommonWebV
     }
 
     @Override
-    public void exec(Context context, int commandLevel, String cmd, String params, WebView webView) {
-
+    public void exec(Context context, int orderLvl, String orderName, String params, WebView webView) {
+        OrderDispatcher.getInstance().exec(context,orderLvl,orderName,params,webView,getDispatcherCallback());
     }
 
     @Override
@@ -118,6 +118,10 @@ abstract public class WebBaseFragment extends BaseFragment implements CommonWebV
 
     protected void loadUrl() {
         webView.loadUrl(url);
+    }
+
+    protected OrderDispatcher.DispatcherCallBack getDispatcherCallback() {
+        return null;
     }
 
 

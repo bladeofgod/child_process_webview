@@ -9,6 +9,7 @@ package com.example.webviewlibrary.interfaces;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.webkit.JavascriptInterface;
 
 public final class JsRemoteInterface {
 
@@ -21,14 +22,13 @@ public final class JsRemoteInterface {
     }
 
     /**
-     *
-     *
-     *
+     * msg from h5
      * @param msg is command from h5.
      * @param param is params from h5.
      *
      * */
-    public void postToNative(final String msg,final String param) {
+    @JavascriptInterface
+    public void post(final String msg,final String param) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

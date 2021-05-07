@@ -8,7 +8,11 @@ import android.webkit.WebView;
 
 import com.example.webviewlibrary.aidl.RemoteWebBinderPool;
 import com.example.webviewlibrary.interfaces.Action;
+import com.example.webviewlibrary.interfaces.ResultCallback;
+import com.example.webviewlibrary.order.OrderManager;
+import com.google.gson.Gson;
 
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,6 +26,7 @@ import java.util.concurrent.Executors;
 
 public class OrderDispatcher {
     private static OrderDispatcher singleton;
+    private Gson gson = new Gson();
 
     private OrderDispatcher() {}
 
@@ -70,34 +75,67 @@ public class OrderDispatcher {
     }
 
 
-    /*
-    * order entry
-    * filter order type
-    *
-    * */
-    public void exec(Context context, int orderLvl, String cmd, String params, WebView webView,
+    /**
+     *
+     * order entry point
+     * execute order from web view
+     *
+     *  * may cross process or thread
+     * */
+    public void exec(Context context, int orderLvl, String orderName, String params, WebView webView,
                      DispatcherCallBack callBack) {
+        //cross the process or thread so need try/catch
+        try {
+            if(OrderManager.getInstance().isUiOrder(orderLvl,orderName)) {
+                execUI(context,orderLvl,orderName,params,webView,callBack);
+            }
+        }catch (Exception e) {
+            logOrderException(e);
+        }
 
     }
 
-    private void execUI(final Context context,final  int commandLevel,final  String cmd, final String params,
+    private void execUI(final Context context,final int orderLvl, String orderName, final String params,
                         final WebView webView, final DispatcherCallBack dispatcherCallBack) {
+        Map map = gson.fromJson(params,Map.class);
+        OrderManager.getInstance().findAndExecUiOrder(context, orderLvl, orderName, map, new ResultCallback() {
+            @Override
+            public void onResult(int status, String orderName, Object result) {
+                try {
+                    handleCallback(status,orderName,gson.toJson(result),webView,dispatcherCallBack);
+                }catch (Exception e) {
+                    logOrderException(e);
+                }
+            }
+        });
 
     }
 
-    private void execNonUI(Context context, int commandLevel, String cmd, String params,final  WebView webView,
+    private void execNonUI(Context context, int orderLvl, String orderName, String params,final  WebView webView,
                            final DispatcherCallBack dispatcherCallBack) {
 
     }
 
-    private void handleCallback(final int responseCode, final String actionName, final String response,
+    private void handleCallback(final int responseCode, final String orderName, final String response,
                                 final WebView webView, final DispatcherCallBack dispatcherCallBack) {
+        WebMainHandler.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("order dispatcher","handle native result call back! ");
+            }
+        });
 
     }
 
     public interface DispatcherCallBack {
         boolean preHandleBeforeCallback(int responseCode, String actionName, String response);
     }
+
+
+    private void logOrderException(Exception e) {
+        Log.e("OrderDispatcher","order execute occur an error !" , e);
+    }
+
 }
 
 

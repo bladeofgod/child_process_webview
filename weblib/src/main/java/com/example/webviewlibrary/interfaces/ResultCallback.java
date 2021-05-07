@@ -9,5 +9,5 @@ package com.example.webviewlibrary.interfaces;
 
 public interface ResultCallback {
 
-    void onResult(int status,String action,Object result);
+    void onResult(int status,String orderName,Object result);
 }

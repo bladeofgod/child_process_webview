@@ -57,6 +57,10 @@ public class OrderManager {
         }
     }
 
+    public boolean isUiOrder(int lvl,String orderName) {
+        return uiOrders.getOrders().get(orderName) != null;
+    }
+
 
 }
 
