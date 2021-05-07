@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.Process;
+import android.util.Log;
 import android.view.View;
 
 import com.example.webviewlibrary.CommonWebFragment;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int pid = Process.myPid();
+        Log.e("","MainActivity  on create :  当前进程ID 为 " +pid);
 
         findViewById(R.id.btn_open_jd).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
                 WebViewActivity.start(MainActivity.this,"京东",localH5);
             }
         });
+
+
 
 
     }

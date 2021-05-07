@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.example.webviewlibrary.CommonWebFragment;
@@ -33,6 +35,8 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        int pid = Process.myPid();
+        Log.e("","WebViewActivity  on create :  当前进程ID 为 " +pid);
 
         title = getIntent().getStringExtra(WebConstant.INTENT_TAG_TITLE);
         url = getIntent().getStringExtra(WebConstant.INTENT_TAG_URL);

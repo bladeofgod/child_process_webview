@@ -34,6 +34,7 @@ public class RemoteWebBinderPool {
 
     private RemoteWebBinderPool(Context context) {
         mAppContext = context.getApplicationContext();
+        connectMainProService();
     }
 
     public static RemoteWebBinderPool getInstance(Context context) {
