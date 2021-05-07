@@ -43,7 +43,13 @@ public class TextureDisplayActivity extends AppCompatActivity implements Texture
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            logMsg("onServiceConnected");
             surfaceBinder = ISurfaceAidlInterface.Stub.asInterface(service);
+            try {
+                surfaceBinder.shareSurface(sf);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -58,11 +64,6 @@ public class TextureDisplayActivity extends AppCompatActivity implements Texture
     public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
         logMsg("onSurfaceTextureAvailable");
          sf = new Surface(textureView.getSurfaceTexture());
-        try {
-            surfaceBinder.shareSurface(sf);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

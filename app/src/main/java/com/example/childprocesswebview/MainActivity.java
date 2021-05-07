@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.util.Log;
@@ -40,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
+        findViewById(R.id.btn_share_surface).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,TextureDisplayActivity.class));
+            }
+        });
 
     }
 }
